@@ -46,16 +46,14 @@ module.exports = {
         'e' // for e.returnvalue
       ]
     }],
-    'no-underscore-dangle': ['error', {
-      allow: ['$_']
-    }],
+    'no-underscore-dangle': 0,
     // allow optionalDependencies
     'import/no-extraneous-dependencies': ['error', {
       optionalDependencies: ['test/unit/index.js']
     }],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-shadow': [ 'error', { 
+    'no-shadow': [ 'error', {
       allow: ['state', 'commit', 'dispatch', 'rootState'] // vuex param options
     }]
   }

@@ -8,6 +8,7 @@ import './scss/main.scss';
 import App from './app-view';
 import router from './router';
 import store from './store';
+import { awsMixins } from './aws-mixins';
 
 Vue.use(VueLogger, {
   logLevels: ['debug', 'info', 'warn', 'error', 'fatal'],
@@ -16,6 +17,7 @@ Vue.use(VueLogger, {
   showMethodName: true,
   showConsoleColors: true,
 });
+Vue.mixin(awsMixins);
 Vue.use(VuePaginate);
 
 // lend me a hand lodash! to all components

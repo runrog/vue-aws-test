@@ -10,6 +10,8 @@ static/css/
 dist/index.html
 dist/static
 
+aws-creds.json
+
 # Editor directories and files
 .idea
 .vscode
