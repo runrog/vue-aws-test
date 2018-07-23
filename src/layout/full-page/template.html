@@ -1,3 +1,113 @@
-<div>
-  This is the full page
+<div class="app-beach-bod">
+  <div class="row">
+    <form class="form">
+      <button class="form-btn" @click.prevent="logout">Logout</button>
+      <button class="form-btn" @click.prevent="forgotPass">Reset Password</button>
+    </form>
+    <form class="form">
+      <h3>Login</h3>
+      <div class="form-field">
+        <label class="form-label">Username</label>
+        <input
+          type="text"
+          v-model="loginUser"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          v-model="loginPass"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <button class="form-btn" @click.prevent="login">Login</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <form class="form">
+      <div class="row">
+        current user: </br>
+        logged in: </br>
+        tokens: </br>
+      </div>
+      <h3>Sign Up</h3>
+      <div class="form-field">
+        <label class="form-label">Name</label>
+        <input
+          type="text"
+          v-model="newName"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Email jbc210@gmail.com</label>
+        <input
+          type="text"
+          v-model="newEmail"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          v-model="newPassword"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <button class="form-btn" @click.prevent="signUp">Sign Up</button>
+        <!-- <button class="form-btn" @click.prevent="login">Login</button>
+        <button class="form-btn" @click.prevent="logout">Logout</button> -->
+      </div>
+    </form>
+  </div>
+
+
+  <div class="row">
+    <form class="form">
+      <h3>Confirmation</h3>
+      <div class="form-field">
+        <label class="form-label">Code</label>
+        <input
+          type="text"
+          v-model="confCode"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <button class="form-btn" @click.prevent="confirmUser">Confirm</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <form class="form">
+      <h3>Reset Password</h3>
+      <div class="form-field">
+        <label class="form-label">Email</label>
+        <input
+          type="text"
+          v-model="newEmail"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Code</label>
+        <input
+          type="text"
+          v-model="confCode"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Password</label>
+        <input
+          type="password"
+          v-model="newPassword"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <button class="form-btn" @click.prevent="submitNewPass">Reset Password</button>
+      </div>
+    </form>
+  </div>
+
 </div>

@@ -10,6 +10,18 @@ export default Vue.component('app-view', {
   },
   created() {
     this.$log.info('app created');
+    // @TODO add user pool on load here
+    // cognito stores local user sessions for us
+    this.restoreSession();
   },
-  methods: {},
+  methods: {
+    async restoreSession() {
+      try {
+        const session = await this._cognitoRestoreSession();
+        this.$log.info('session user: ', session);
+      } catch (e) {
+        this.$log.error(e);
+      }
+    },
+  },
 });

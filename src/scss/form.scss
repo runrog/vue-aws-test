@@ -1,0 +1,52 @@
+.form {
+  border: 0;
+  margin: 0 auto;
+  width: 50%;
+}
+
+.form-field {
+  background-color: rgba($black, .05);
+  border-radius: 2px;
+  padding: 15px 10px;
+}
+
+.form-label {
+  @include clear-fix;
+  display: inline-block;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.form-input {
+  background-color: $white;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  font-size: 12pt;
+  padding: 10px 5px;
+  transition-duration: .2s;
+  width: 100%;
+
+  &:focus {
+    border-color: rgba($black, .4);
+    outline: 0;
+  }
+}
+
+.form-btn {
+  background-color: rgba($black, .2);
+  border: 0;
+  border-radius: 2px;
+  color: $white;
+  font-size: 10pt;
+  padding: 10px;
+  transition-duration: .2s;
+
+  &:hover {
+    background-color: rgba($black, .4);
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}

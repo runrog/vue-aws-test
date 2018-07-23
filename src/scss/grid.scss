@@ -1,0 +1,8 @@
+.app-beach-bod {
+  padding-top: 20px;
+}
+
+.row {
+  @include clear-fix;
+  margin-bottom: 10px;
+}
