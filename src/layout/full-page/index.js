@@ -107,5 +107,12 @@ export default Vue.component('full-page', {
         this.$log.error(e);
       }
     },
+    async addDbItem() {
+      try {
+        await this._dynamodbPutItem();
+      } catch (e) {
+        this.$log.error(e);
+      }
+    },
   },
 });

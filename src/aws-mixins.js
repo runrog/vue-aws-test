@@ -1,4 +1,6 @@
 import AWS from 'aws-sdk';
+import { mapGetters } from 'vuex';
+
 import {
   CognitoUserPool,
   // CognitoUserAttribute,
@@ -9,10 +11,23 @@ import creds from './aws-creds.json';
 
 const awsMixins = {
   computed: {
+    ...mapGetters(['session']),
     _account() {
+      const params = {
+        IdentityPoolId: 'us-west-2:beb09b61-49ce-430f-83c8-041d4349d771',
+        Logins: {
+          'cognito-idp.us-west-2.amazonaws.com/us-west-2_Ckz79cGhN': this.session.getIdToken().getJwtToken(),
+        },
+      };
+      const cognitoIdentity = new AWS.CognitoIdentityCredentials(params);
+
+      // set global creds when using this service
+      AWS.config.region = 'us-west-2';
+      AWS.config.credentials = cognitoIdentity;
+
       return {
-        dynamodb: new AWS.DynamoDB(creds.services.dynamodb),
-        cognito: new AWS.CognitoIdentity(creds.services.cognito),
+        dynamodb: new AWS.DynamoDB(params),
+        cognitoIdentity: new AWS.CognitoIdentityCredentials(params),
         lambda: new AWS.Lambda(creds.services.lambda),
         sns: new AWS.SNS(creds.services.sns),
       };
@@ -53,19 +68,23 @@ const awsMixins = {
     },
     _dynamodbPutItem() {
       const params = {
+        TableName: 'test-table', // account table
         Item: {
-          AlbumTitle: {
-            S: 'Somewhat Famous',
+          IdentityId: {
+            S: this._account.cognitoIdentity.identityId,
           },
-          Artist: {
-            S: 'No One You Know',
+          testItem: {
+            S: 'some-thing',
           },
-          SongTitle: {
-            S: 'Call Me Today',
+        },
+        Expected: {
+          IdentityId: {
+            Exists: false,
           },
         },
       };
-      return this._account.putItem(params).promise();
+      this.$log.info('params: ', params);
+      return this._account.dynamodb.putItem(params).promise();
     },
     // Cognito mixins
     // https://github.com/aws-amplify/amplify-js/tree/master/packages/amazon-cognito-identity-js
@@ -155,7 +174,7 @@ const awsMixins = {
               reject(err);
             }
             if (session.isValid()) {
-              resolve(cognitoUser);
+              resolve(session);
             }
           });
         }
@@ -201,12 +220,34 @@ const awsMixins = {
 
       const userPool = new CognitoUserPool(poolData);
       const cognitoUser = userPool.getCurrentUser();
+
       return new Promise((resolve, reject) => {
         if (cognitoUser) {
           resolve(cognitoUser.signOut());
         } else {
           reject('error: shit idk');
         }
+      });
+    },
+    _cognitoChangePassword(p) {
+      // change password for a logged in user
+
+      // @TODO break this out to 1 place
+      const poolData = {
+        UserPoolId: creds.services.poolId,
+        ClientId: creds.services.client,
+      };
+
+      const userPool = new CognitoUserPool(poolData);
+      const cognitoUser = userPool.getCurrentUser();
+
+      return new Promise((resolve, reject) => {
+        cognitoUser.changePassword(p.oldPassword, p.newPassword, (err, result) => {
+          if (err) {
+            reject(err.message || JSON.stringify(err));
+          }
+          resolve(result);
+        });
       });
     },
     _cognitoForgotPassword(p) {
