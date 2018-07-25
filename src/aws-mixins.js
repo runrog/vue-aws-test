@@ -1,4 +1,3 @@
-import AWS from 'aws-sdk';
 import { mapGetters } from 'vuex';
 
 import {
@@ -13,23 +12,13 @@ const awsMixins = {
   computed: {
     ...mapGetters(['session']),
     _account() {
-      const params = {
-        IdentityPoolId: 'us-west-2:beb09b61-49ce-430f-83c8-041d4349d771',
-        Logins: {
-          'cognito-idp.us-west-2.amazonaws.com/us-west-2_Ckz79cGhN': this.session.getIdToken().getJwtToken(),
-        },
-      };
-      const cognitoIdentity = new AWS.CognitoIdentityCredentials(params);
-
-      // set global creds when using this service
-      AWS.config.region = 'us-west-2';
-      AWS.config.credentials = cognitoIdentity;
-
       return {
-        dynamodb: new AWS.DynamoDB(params),
-        cognitoIdentity: new AWS.CognitoIdentityCredentials(params),
-        lambda: new AWS.Lambda(creds.services.lambda),
-        sns: new AWS.SNS(creds.services.sns),
+        dynamodb: new this.$aws.DynamoDB(),
+        // cognitoIdentity: new AWS.CognitoIdentityCredentials(params),
+        lambda: new this.$aws.Lambda(creds.services.lambda),
+        sns: new this.$aws.SNS(creds.services.sns),
+        // @TODO try working with all other services
+        // cloudfront/s3/route53/ses/route53Domains/ACM etc
       };
     },
   },
@@ -67,29 +56,37 @@ const awsMixins = {
       return this._account.dynamodb.createTable(params).promise();
     },
     _dynamodbPutItem() {
+      // set dynamo region
+      this.$aws.config.region = 'us-west-2';
+
       const params = {
         TableName: 'test-table', // account table
         Item: {
-          IdentityId: {
-            S: this._account.cognitoIdentity.identityId,
-          },
-          testItem: {
-            S: 'some-thing',
-          },
+          _id: this.$aws.config.credentials.identityId,
+          'test item': 'tessst',
         },
         Expected: {
-          IdentityId: {
+          _id: {
             Exists: false,
           },
         },
       };
       this.$log.info('params: ', params);
-      return this._account.dynamodb.putItem(params).promise();
+      const d = new this.$aws.DynamoDB.DocumentClient();
+
+      d.put(params, (err, data) => {
+        if (err) {
+          this.$log.error('error: ', err);
+          return;
+        }
+        this.$log.info('data:', data);
+      });
+      // return this._account.dynamodb.putItem(params).promise();
     },
     // Cognito mixins
     // https://github.com/aws-amplify/amplify-js/tree/master/packages/amazon-cognito-identity-js
     _getUserPool() {
-      // each account may need it's own pool for client ids
+      // each account will just need it's own row
       const poolData = {
         UserPoolId: creds.services.poolId,
         ClientId: creds.services.client,

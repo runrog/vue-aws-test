@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import VueLogger from 'vuejs-logger';
 import VuePaginate from 'vue-paginate';
+import AWS from 'aws-sdk';
 import _ from 'lodash';
 import './scss/main.scss';
 import App from './app-view';
@@ -23,6 +24,7 @@ Vue.use(VuePaginate);
 // lend me a hand lodash! to all components
 Vue.prototype.$_ = _; // eslint-disable-line
 Vue.config.productionTip = false;
+Vue.prototype.$aws = AWS;
 
 /* eslint-disable no-new */
 new Vue({
