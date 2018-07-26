@@ -70,6 +70,8 @@ export default Vue.component('full-page', {
         const login = await this._cognitoLogin(payload);
         // may not need to do this as cognito stores users for you locally
         // localStorage.setItem('userSession', JSON.stringify(login));
+        // @TODO will likely need to get the user identityId and add it to
+        // the aws creds manually
         this.$log.info('logged in', login);
       } catch (e) {
         this.$log.error(e);
@@ -110,6 +112,7 @@ export default Vue.component('full-page', {
     async addDbItem() {
       try {
         await this._dynamodbPutItem();
+        this.$log.info('wrote to DB!');
       } catch (e) {
         this.$log.error(e);
       }

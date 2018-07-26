@@ -58,30 +58,18 @@ const awsMixins = {
     _dynamodbPutItem() {
       // set dynamo region
       this.$aws.config.region = 'us-west-2';
-
       const params = {
         TableName: 'test-table', // account table
         Item: {
-          _id: this.$aws.config.credentials.identityId,
-          'test item': 'tessst',
-        },
-        Expected: {
           _id: {
-            Exists: false,
+            S: this.$aws.config.credentials.identityId,
+          },
+          test: {
+            S: 'wowza!!',
           },
         },
       };
-      this.$log.info('params: ', params);
-      const d = new this.$aws.DynamoDB.DocumentClient();
-
-      d.put(params, (err, data) => {
-        if (err) {
-          this.$log.error('error: ', err);
-          return;
-        }
-        this.$log.info('data:', data);
-      });
-      // return this._account.dynamodb.putItem(params).promise();
+      return this._account.dynamodb.putItem(params).promise();
     },
     // Cognito mixins
     // https://github.com/aws-amplify/amplify-js/tree/master/packages/amazon-cognito-identity-js
