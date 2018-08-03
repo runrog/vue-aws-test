@@ -1,0 +1,114 @@
+{
+  "name": "",
+  "alias": "",
+  "_id": "",
+  "type": "general",
+  "analytics": "",
+  "favicon": "",
+  "status": "live",
+  "updated": "",
+  "SSL": {
+    "certs": []
+  },
+  "cloudFront": {
+    "domain": "",
+    "id": ""
+  },
+  "siteTheme": "default",
+  "siteBaseColor": {
+    "rgba": "rgba(65, 224, 196, 1)",
+    "picker": {
+      "hex": "#41e0c4"
+    }
+  },
+  "domains": [],
+  "siteMap": [],
+  "pages": [
+    {
+      "_id":"",
+      "collection_name":"page",
+      "createdDate":"",
+      "name":"Homepage",
+      "isHomepage": true,
+      "url":"/",
+      "type":"page",
+      "description":"",
+      "blocks":[
+        {
+          "_id":"",
+          "createdDate":"",
+          "type":"sectionBlock",
+          "hint":true,
+          "hrefId":"",
+          "mediaQueries":[
+             {
+                "property":"min-height",
+                "unit":"px",
+                "desktop":"0",
+                "tablet":"0",
+                "mobile":"0"
+             },
+             {
+                "defaultColor":false,
+                "property":"background-color",
+                "desktop":"default",
+                "tablet":"default",
+                "mobile":"default"
+             },
+             {
+                "property":"background-image",
+                "desktop":"default",
+                "tablet":"default",
+                "mobile":"default"
+             },
+             {
+                "property":"background-size",
+                "desktop":"cover",
+                "tablet":"default",
+                "mobile":"default"
+             },
+             {
+                "property":"background-repeat",
+                "desktop":"default",
+                "tablet":"default",
+                "mobile":"default"
+             },
+             {
+                "property":"background-position",
+                "desktop":"center center",
+                "tablet":"default",
+                "mobile":"default"
+             }
+          ],
+          "sectionClassList":[
+             "flex-center-all"
+          ],
+          "pageCSS":"",
+          "shadow":false,
+          "centerContainer":true,
+          "bgType":"color",
+          "resetBg":"",
+          "colorPickerRgba":"",
+          "colorPicker":{
+             "hex":"#41e0c4"
+          },
+          "bgImg":"",
+          "bgImgSize":"cover",
+          "bgImgPosition":"center center",
+          "errors":{
+             "id":false
+          },
+          "droplets":[],
+          "isShared":false,
+          "templateRegion":false
+        }
+      ]
+    }
+  ],
+  "drafts": [],
+  "templates": [],
+  "linkedBy": {
+    "pages": [],
+    "droplets": []
+  }
+}

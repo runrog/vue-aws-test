@@ -14,6 +14,7 @@ export default Vue.component('full-page', {
       newUser: {},
       loginUser: '',
       loginPass: '',
+      orgName: '',
     };
   },
   methods: {
@@ -30,8 +31,20 @@ export default Vue.component('full-page', {
         Value: this.newName,
       };
 
+      const orgName = {
+        Name: 'website',
+        Value: this.orgName,
+      };
+
+      const picData = {
+        Name: 'picture',
+        Value: '',
+      };
+
       attributes.push(dataEmail);
       attributes.push(dataName);
+      attributes.push(orgName);
+      attributes.push(picData);
 
       const payload = {
         newName: this.newName,
@@ -49,15 +62,15 @@ export default Vue.component('full-page', {
     },
     async confirmUser() {
       const payload = {
-        email: this.newUser.username,
+        email: this.newEmail,
         password: this.newPassword,
         code: this.confCode,
       };
-
+      console.log('confirm: ', payload);
       try {
         await this._cognitoConfirmNewUser(payload);
       } catch (e) {
-        this.$log.console.error(e);
+        console.log('confirm error: ', e);
       }
     },
     async login() {

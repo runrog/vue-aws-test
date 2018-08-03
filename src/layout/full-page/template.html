@@ -29,11 +29,6 @@
 
   <div class="row">
     <form class="form">
-      <div class="row">
-        current user: </br>
-        logged in: </br>
-        tokens: </br>
-      </div>
       <h3>Sign Up</h3>
       <div class="form-field">
         <label class="form-label">Name</label>
@@ -43,10 +38,17 @@
           class="form-input" />
       </div>
       <div class="form-field">
-        <label class="form-label">Email jbc210@gmail.com</label>
+        <label class="form-label">Email</label>
         <input
           type="text"
           v-model="newEmail"
+          class="form-input" />
+      </div>
+      <div class="form-field">
+        <label class="form-label">Organization</label>
+        <input
+          type="text"
+          v-model="orgName"
           class="form-input" />
       </div>
       <div class="form-field">

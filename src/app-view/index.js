@@ -1,10 +1,14 @@
 import Vue from 'vue';
+import { mapGetters } from 'vuex';
 
 const template = require('./template.html');
 
 export default Vue.component('app-view', {
   template,
   name: 'full-page',
+  computed: {
+    ...mapGetters(['identityId']),
+  },
   data() {
     return {};
   },
@@ -20,12 +24,21 @@ export default Vue.component('app-view', {
         this.$store.dispatch('setSession', { session });
         // set aws creds in state so this user can have it's limited permissions
         // @TODO dynamically get those values
-        this.$aws.config.credentials = new this.$aws.CognitoIdentityCredentials({
-          IdentityPoolId: 'us-west-2:beb09b61-49ce-430f-83c8-041d4349d771',
+        const params = {
+          IdentityPoolId: 'us-west-2:5f612029-4fee-40ba-84fa-d20dca198ac9',
           Logins: {
-            'cognito-idp.us-west-2.amazonaws.com/us-west-2_Ckz79cGhN': session.getIdToken().getJwtToken(),
+            'cognito-idp.us-west-2.amazonaws.com/us-west-2_7KCFsLoTT': session.getIdToken().getJwtToken(),
           },
-        });
+        };
+
+        this.$aws.config.credentials = new this.$aws.CognitoIdentityCredentials(params);
+
+        // grab user IdentityId
+        const user = await new this.$aws.CognitoIdentity({
+          region: 'us-west-2',
+        }).getId(params).promise();
+        // store this in state
+        this.$store.dispatch('setIdentityId', { identityId: user.IdentityId });
         this.$log.info(`session set for: ${session.idToken.payload.email}`);
       } catch (e) {
         this.$log.error(e);
